@@ -13,10 +13,7 @@ import ru.karapetiandav.tinkoffintership.R
 import ru.karapetiandav.tinkoffintership.features.news.contract.NewsContract
 import ru.karapetiandav.tinkoffintership.features.news.presenters.NewsPresenter
 import ru.karapetiandav.tinkoffintership.features.news.ui.adapters.NewsAdapter
-import ru.karapetiandav.tinkoffintership.features.news.ui.state.Data
-import ru.karapetiandav.tinkoffintership.features.news.ui.state.Error
-import ru.karapetiandav.tinkoffintership.features.news.ui.state.Loading
-import ru.karapetiandav.tinkoffintership.features.news.ui.state.NewsViewState
+import ru.karapetiandav.tinkoffintership.features.news.ui.state.*
 import ru.karapetiandav.tinkoffintership.ui.models.News
 
 class NewsFragment : Fragment(), NewsContract.View {
@@ -32,9 +29,9 @@ class NewsFragment : Fragment(), NewsContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        screenState = LoadingStateDelegate(newsList, loading)
+        screenState = LoadingStateDelegate(newsList, loading, zero_stub)
 
-        setPresenter(NewsPresenter(DependencyInjectorImpl()))
+        setPresenter(NewsPresenter(DependencyInjectorImpl))
 
         presenter.state.subscribe(::onStateChanged)
         presenter.onViewCreated()
@@ -54,7 +51,9 @@ class NewsFragment : Fragment(), NewsContract.View {
                 displayNews(state.news)
             }
             is Error -> {
-                screenState.showStub()
+                screenState.showStub(
+                    StubStateData(titleResId = state.error.localizedMessage)
+                )
             }
         }
     }

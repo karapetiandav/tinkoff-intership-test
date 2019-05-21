@@ -1,7 +1,9 @@
 package ru.karapetiandav.tinkoffintership.features.news.presenters
 
 import android.util.Log
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import ru.karapetiandav.tinkoffintership.DependencyInjector
 import ru.karapetiandav.tinkoffintership.features.news.contract.NewsContract
@@ -17,7 +19,7 @@ class NewsPresenter(dependencyInjector: DependencyInjector) : NewsContract.Prese
 
     private val newsRepository: NewsRepository = dependencyInjector.newsRepository()
 
-    val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
+    private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
     override fun onViewCreated() {
         loadNews()
@@ -25,6 +27,8 @@ class NewsPresenter(dependencyInjector: DependencyInjector) : NewsContract.Prese
 
     private fun loadNews() {
         val newsQuery = newsRepository.getNews()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .toObservable()
             .map<NewsViewState>(::Data)
             .startWith(Loading)

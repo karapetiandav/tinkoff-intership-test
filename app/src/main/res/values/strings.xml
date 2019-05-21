@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">tinkoffintership</string>
     <string name="item_news_sample_text">Тинькофф Банк начинает сотрудничество с кафедрой математических и компьютерных методов анализа мехмата МГУ</string>
+    <string name="loading_zero_title">Loading</string>
+    <string name="loading_zero_description">Loading</string>
 </resources>

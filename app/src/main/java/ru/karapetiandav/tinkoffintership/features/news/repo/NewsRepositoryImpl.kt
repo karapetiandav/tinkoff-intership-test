@@ -1,12 +1,15 @@
 package ru.karapetiandav.tinkoffintership.features.news.repo
 
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
+import ru.karapetiandav.tinkoffintership.features.news.network.NetworkService
 import ru.karapetiandav.tinkoffintership.ui.models.News
-import ru.karapetiandav.tinkoffintership.ui.models.NewsDate
 
 class NewsRepositoryImpl : NewsRepository {
     override fun getNews(): Single<List<News>> {
-        val fakeNews = (0..50).mapIndexed { index, i -> News(index, "News #$index", "Text #$index", NewsDate(0), 0) }
-        return Single.just(fakeNews)
+        return NetworkService().getTinkoffApi().getNews()
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.computation())
+            .map { response -> response.payload }
     }
 }
