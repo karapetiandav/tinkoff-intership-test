@@ -14,6 +14,6 @@ interface NewsContract {
     }
 
     interface View : BaseView<Presenter> {
-        fun displayNews(news: List<News>)
+        fun displayNews(news: List<News>, onClickAction: (Int) -> Unit)
     }
 }

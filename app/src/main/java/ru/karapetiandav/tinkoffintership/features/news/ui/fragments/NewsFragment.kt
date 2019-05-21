@@ -48,7 +48,7 @@ class NewsFragment : Fragment(), NewsContract.View {
             }
             is Data -> {
                 screenState.showContent()
-                displayNews(state.news)
+                displayNews(state.news, state.onClickAction)
             }
             is Error -> {
                 screenState.showStub(
@@ -58,9 +58,9 @@ class NewsFragment : Fragment(), NewsContract.View {
         }
     }
 
-    override fun displayNews(news: List<News>) {
+    override fun displayNews(news: List<News>, onClickAction: (Int) -> Unit) {
         newsList.layoutManager = LinearLayoutManager(activity)
-        newsList.adapter = NewsAdapter(news)
+        newsList.adapter = NewsAdapter(news, onClickAction)
     }
 
     override fun onDestroy() {
