@@ -31,6 +31,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/newsList" />
+
+        <ru.karapetiandav.tinkoffintership.features.news.ui.layout.NewsStubLayout
+            android:id="@+id/zero_stub"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/newsList"
+            app:layout_constraintEnd_toEndOf="@+id/newsList"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/newsList" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
