@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -34,6 +36,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+    implementation "android.arch.persistence.room:rxjava2:1.1.1"
+    kapt 'android.arch.persistence.room:compiler:1.1.1'
+
     // RxJava
     implementation "io.reactivex.rxjava2:rxjava:2.2.8"
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
@@ -50,4 +57,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
 
     implementation 'ru.terrakok.cicerone:cicerone:5.0.0'
+
+    implementation 'joda-time:joda-time:2.10.2'
 }

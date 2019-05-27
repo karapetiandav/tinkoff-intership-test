@@ -30,4 +30,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/news_details_publication_date"
         tools:text="@string/item_news_sample_text" />
+
+    <ru.karapetiandav.tinkoffintership.features.news.ui.layout.NewsStubLayout
+        android:id="@+id/details_stub"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/content_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="news_details_publication_date,news_details_text" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,8 +10,8 @@ import ru.terrakok.cicerone.android.support.SupportAppNavigator
 
 class MainActivity : AppCompatActivity() {
 
-    private val navigatorHolder: NavigatorHolder by lazy { DependencyInjectorImpl.navigatorHolder() }
-    private val router: Router by lazy { DependencyInjectorImpl.router() }
+    private val navigatorHolder: NavigatorHolder by lazy { DependencyInjectorImpl.getInstance(this).navigatorHolder() }
+    private val router: Router by lazy { DependencyInjectorImpl.getInstance(this).router() }
 
     private lateinit var navigator: Navigator
 

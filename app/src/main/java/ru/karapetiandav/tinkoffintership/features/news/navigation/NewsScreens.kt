@@ -1,5 +1,6 @@
 package ru.karapetiandav.tinkoffintership.features.news.navigation
 
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import ru.karapetiandav.tinkoffintership.features.news.ui.fragments.NewsDetailsFragment
 import ru.karapetiandav.tinkoffintership.features.news.ui.fragments.NewsFragment
@@ -12,9 +13,11 @@ class NewsScreens {
         }
     }
 
-    object DetailsScreen : SupportAppScreen() {
+    class DetailsScreen(private val newsId: Int) : SupportAppScreen() {
         override fun getFragment(): Fragment {
-            return NewsDetailsFragment()
+            return NewsDetailsFragment().apply {
+                arguments = bundleOf("newsId" to newsId)
+            }
         }
     }
 }

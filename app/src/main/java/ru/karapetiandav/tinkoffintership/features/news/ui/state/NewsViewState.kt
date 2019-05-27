@@ -1,8 +1,8 @@
 package ru.karapetiandav.tinkoffintership.features.news.ui.state
 
-import ru.karapetiandav.tinkoffintership.ui.models.News
+import ru.karapetiandav.tinkoffintership.features.news.models.News
 
 sealed class NewsViewState
-data class Data(val news: List<News>, val onClickAction: (Int) -> Unit) : NewsViewState()
+data class Data(val news: List<News>) : NewsViewState()
 object Loading : NewsViewState()
 data class Error(val error: Throwable) : NewsViewState()

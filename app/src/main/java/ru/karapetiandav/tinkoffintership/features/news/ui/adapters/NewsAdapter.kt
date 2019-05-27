@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import kotlinx.android.synthetic.main.item_news.view.*
 import ru.karapetiandav.tinkoffintership.R
-import ru.karapetiandav.tinkoffintership.ui.models.News
+import ru.karapetiandav.tinkoffintership.features.news.models.News
 
 class NewsAdapter(private val news: List<News>, private val onClickAction: (Int) -> Unit) : Adapter<NewsAdapter.NewsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
