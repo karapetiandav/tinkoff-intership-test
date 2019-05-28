@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.redmadrobot.lib.sd.LoadingStateDelegate
@@ -27,12 +28,17 @@ class NewsDetailsFragment : Fragment() {
     private lateinit var viewModelFactory: NewsDetailsViewModelFactory
     private lateinit var viewModel: NewsDetailsViewModel
 
+    private lateinit var activity: AppCompatActivity
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_news_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+        toolbar.setNavigationOnClickListener { viewModel.onBackButtonPressed() }
 
         val context: Context = context ?: return
 
@@ -49,7 +55,9 @@ class NewsDetailsFragment : Fragment() {
         when (state) {
             is NewsDetailsDate -> {
                 screenState.showContent()
-                news_details_publication_date.text = DateTime(state.news.publicationDate.milliseconds).toString("dd.MM.yyyy")
+                toolbar?.title = "News ${state.news.id}"
+                news_details_publication_date.text =
+                    DateTime(state.news.publicationDate.milliseconds).toString("dd.MM.yyyy")
                 news_details_text.text = state.news.text
             }
             is NewsDetailsError -> {
@@ -57,5 +65,4 @@ class NewsDetailsFragment : Fragment() {
             }
         }
     }
-
 }
