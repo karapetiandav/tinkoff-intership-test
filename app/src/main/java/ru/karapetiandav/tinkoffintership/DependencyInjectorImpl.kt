@@ -5,6 +5,7 @@ import ru.karapetiandav.tinkoffintership.database.AppDatabase
 import ru.karapetiandav.tinkoffintership.features.news.network.NetworkService
 import ru.karapetiandav.tinkoffintership.features.news.repo.NewsRepository
 import ru.karapetiandav.tinkoffintership.features.news.repo.NewsRepositoryImpl
+import ru.karapetiandav.tinkoffintership.services.ConnectivityManager
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
@@ -21,11 +22,11 @@ class DependencyInjectorImpl private constructor(private val context: Context) :
         }
     }
 
-    private val networkService by lazy { NetworkService() }
+    private val networkService by lazy { NetworkService.getInstance() }
 
     override fun networkService(): NetworkService = networkService
 
-    override fun newsRepository(): NewsRepository = NewsRepositoryImpl()
+    override fun newsRepository(): NewsRepository = NewsRepositoryImpl(this)
 
     private val cicerone: Cicerone<Router> = Cicerone.create()
 
@@ -33,7 +34,7 @@ class DependencyInjectorImpl private constructor(private val context: Context) :
 
     override fun router(): Router = cicerone.router
 
-    override fun database(): AppDatabase {
-        return AppDatabase.getInstance(context)
-    }
+    override fun database(): AppDatabase = AppDatabase.getInstance(context)
+
+    override fun connectivityManager(): ConnectivityManager = ConnectivityManager(context)
 }

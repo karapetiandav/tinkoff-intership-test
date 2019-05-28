@@ -8,8 +8,6 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import ru.karapetiandav.tinkoffintership.DependencyInjector
 import ru.karapetiandav.tinkoffintership.contract.BaseViewModel
-import ru.karapetiandav.tinkoffintership.database.AppDatabase
-import ru.karapetiandav.tinkoffintership.features.news.models.News
 import ru.karapetiandav.tinkoffintership.features.news.navigation.NewsScreens
 import ru.karapetiandav.tinkoffintership.features.news.repo.NewsRepository
 import ru.karapetiandav.tinkoffintership.features.news.ui.state.Data
@@ -26,20 +24,11 @@ class NewsViewModel(dependencyInjector: DependencyInjector) : BaseViewModel() {
 
     private val router: Router = dependencyInjector.router()
 
-    private val database: AppDatabase = dependencyInjector.database()
-
-    private var cachedNews: List<News> = emptyList()
     private fun loadNews() {
         newsRepository.getNews()
             .toObservable()
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.computation())
-            .map { news -> news.sortedBy { it.publicationDate.milliseconds } }
-            .map { news ->
-                cachedNews = news
-                database.newsDao().insertNews(news)
-                news
-            }
             .observeOn(AndroidSchedulers.mainThread())
             .map<NewsViewState> { news -> Data(news) }
             .startWith(Loading)
@@ -48,8 +37,8 @@ class NewsViewModel(dependencyInjector: DependencyInjector) : BaseViewModel() {
             .disposeOnViewModelDestroy()
     }
 
-    fun onNewsClick(position: Int) {
-        router.navigateTo(NewsScreens.DetailsScreen(cachedNews[position].id))
+    fun onNewsClick(newsId: Int) {
+        router.navigateTo(NewsScreens.DetailsScreen(newsId))
     }
 
     fun onViewCreated() {
