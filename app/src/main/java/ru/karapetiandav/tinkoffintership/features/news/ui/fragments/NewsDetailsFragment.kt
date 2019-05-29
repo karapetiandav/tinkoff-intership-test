@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.redmadrobot.lib.sd.LoadingStateDelegate
@@ -20,6 +19,7 @@ import ru.karapetiandav.tinkoffintership.features.news.ui.state.NewsDetailsViewS
 import ru.karapetiandav.tinkoffintership.features.news.ui.state.StubStateData
 import ru.karapetiandav.tinkoffintership.features.news.ui.viewmodel.NewsDetailsViewModel
 import ru.karapetiandav.tinkoffintership.features.news.ui.viewmodel.NewsDetailsViewModelFactory
+import ru.karapetiandav.tinkoffintership.lifecycle.observe
 
 class NewsDetailsFragment : Fragment() {
 
@@ -27,8 +27,6 @@ class NewsDetailsFragment : Fragment() {
 
     private lateinit var viewModelFactory: NewsDetailsViewModelFactory
     private lateinit var viewModel: NewsDetailsViewModel
-
-    private lateinit var activity: AppCompatActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_news_details, container, false)
@@ -46,7 +44,7 @@ class NewsDetailsFragment : Fragment() {
         viewModelFactory = NewsDetailsViewModelFactory(newsId, DependencyInjectorImpl.getInstance(context))
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(NewsDetailsViewModel::class.java)
 
-        viewModel.state.subscribe(::stateChanged)
+        observe(viewModel.state, ::stateChanged)
 
         screenState = LoadingStateDelegate(contentView = content_group, stubView = details_stub)
     }

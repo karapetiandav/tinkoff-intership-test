@@ -16,6 +16,7 @@ import ru.karapetiandav.tinkoffintership.features.news.presenters.NewsViewModel
 import ru.karapetiandav.tinkoffintership.features.news.presenters.NewsViewModelFactory
 import ru.karapetiandav.tinkoffintership.features.news.ui.adapters.NewsAdapter
 import ru.karapetiandav.tinkoffintership.features.news.ui.state.*
+import ru.karapetiandav.tinkoffintership.lifecycle.observe
 
 class NewsFragment : Fragment() {
 
@@ -38,7 +39,7 @@ class NewsFragment : Fragment() {
 
         screenState = LoadingStateDelegate(newsList, loading, zero_stub)
 
-        viewModel.state.subscribe(::onStateChanged)
+        observe(viewModel.state, ::onStateChanged)
     }
 
     private fun onStateChanged(state: NewsViewState) {
