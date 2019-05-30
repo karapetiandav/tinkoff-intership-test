@@ -9,14 +9,16 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.redmadrobot.lib.sd.LoadingStateDelegate
 import kotlinx.android.synthetic.main.fragment_news.*
-import ru.karapetiandav.tinkoffintership.DependencyInjectorImpl
+import org.koin.android.ext.android.inject
 import ru.karapetiandav.tinkoffintership.R
 import ru.karapetiandav.tinkoffintership.features.news.models.News
 import ru.karapetiandav.tinkoffintership.features.news.presenters.NewsViewModel
 import ru.karapetiandav.tinkoffintership.features.news.presenters.NewsViewModelFactory
+import ru.karapetiandav.tinkoffintership.features.news.repo.NewsRepository
 import ru.karapetiandav.tinkoffintership.features.news.ui.adapters.NewsAdapter
 import ru.karapetiandav.tinkoffintership.features.news.ui.state.*
 import ru.karapetiandav.tinkoffintership.lifecycle.observe
+import ru.terrakok.cicerone.Router
 
 class NewsFragment : Fragment() {
 
@@ -25,6 +27,9 @@ class NewsFragment : Fragment() {
     private lateinit var viewModelFactory: NewsViewModelFactory
     private lateinit var viewModel: NewsViewModel
 
+    private val newsRepository: NewsRepository by inject()
+    private val router: Router by inject()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_news, container, false)
     }
@@ -32,8 +37,7 @@ class NewsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val context = context ?: return
-        viewModelFactory = NewsViewModelFactory(DependencyInjectorImpl.getInstance(context))
+        viewModelFactory = NewsViewModelFactory(newsRepository, router)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(NewsViewModel::class.java)
         viewModel.onViewCreated()
 

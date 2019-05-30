@@ -2,6 +2,7 @@ package ru.karapetiandav.tinkoffintership
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import org.koin.android.ext.android.inject
 import ru.karapetiandav.tinkoffintership.features.news.navigation.NewsScreens
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
@@ -10,8 +11,8 @@ import ru.terrakok.cicerone.android.support.SupportAppNavigator
 
 class MainActivity : AppCompatActivity() {
 
-    private val navigatorHolder: NavigatorHolder by lazy { DependencyInjectorImpl.getInstance(this).navigatorHolder() }
-    private val router: Router by lazy { DependencyInjectorImpl.getInstance(this).router() }
+    private val navigatorHolder: NavigatorHolder by inject()
+    private val router: Router by inject()
 
     private lateinit var navigator: Navigator
 

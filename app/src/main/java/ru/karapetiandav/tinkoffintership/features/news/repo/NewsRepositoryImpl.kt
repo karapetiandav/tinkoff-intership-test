@@ -3,17 +3,16 @@ package ru.karapetiandav.tinkoffintership.features.news.repo
 import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import ru.karapetiandav.tinkoffintership.DependencyInjector
 import ru.karapetiandav.tinkoffintership.database.AppDatabase
 import ru.karapetiandav.tinkoffintership.features.news.models.News
 import ru.karapetiandav.tinkoffintership.features.news.network.NetworkService
 import ru.karapetiandav.tinkoffintership.services.ConnectivityManager
 
-class NewsRepositoryImpl(dependencyInjector: DependencyInjector) : NewsRepository {
-
-    private val connectivityManager: ConnectivityManager = dependencyInjector.connectivityManager()
-    private val database: AppDatabase = dependencyInjector.database()
-    private val networkService: NetworkService = dependencyInjector.networkService()
+class NewsRepositoryImpl(
+    private val networkService: NetworkService,
+    private val connectivityManager: ConnectivityManager,
+    private val database: AppDatabase
+) : NewsRepository {
 
     private var newsCached = false
 

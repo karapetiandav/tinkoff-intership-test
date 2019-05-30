@@ -6,17 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class NetworkService private constructor() {
-
-    companion object {
-
-        @Volatile
-        private var INSTANCE: NetworkService? = null
-
-        fun getInstance(): NetworkService = INSTANCE ?: synchronized(this) {
-            INSTANCE ?: NetworkService().also { INSTANCE = it }
-        }
-    }
+class NetworkService {
 
     private val BASE_URL = "https://api.tinkoff.ru/v1/"
     private var retrofit: Retrofit

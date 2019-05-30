@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import ru.karapetiandav.tinkoffintership.DependencyInjector
 import ru.karapetiandav.tinkoffintership.contract.BaseViewModel
 import ru.karapetiandav.tinkoffintership.features.news.navigation.NewsScreens
 import ru.karapetiandav.tinkoffintership.features.news.repo.NewsRepository
@@ -18,15 +17,11 @@ import ru.karapetiandav.tinkoffintership.features.news.ui.state.NewsViewState
 import ru.karapetiandav.tinkoffintership.lifecycle.onNext
 import ru.terrakok.cicerone.Router
 
-class NewsViewModel(dependencyInjector: DependencyInjector) : BaseViewModel() {
+class NewsViewModel(private val newsRepository: NewsRepository, private val router: Router) : BaseViewModel() {
 
     private val _state = MutableLiveData<NewsViewState>()
     val state: LiveData<NewsViewState>
         get() = _state
-
-    private val newsRepository: NewsRepository = dependencyInjector.newsRepository()
-
-    private val router: Router = dependencyInjector.router()
 
     private fun loadNews() {
         newsRepository.getNews()
@@ -49,10 +44,10 @@ class NewsViewModel(dependencyInjector: DependencyInjector) : BaseViewModel() {
     }
 }
 
-class NewsViewModelFactory(private val dependencyInjector: DependencyInjector) : ViewModelProvider.Factory {
+class NewsViewModelFactory(private val newsRepository: NewsRepository, private val router: Router) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(NewsViewModel::class.java)) {
-            return NewsViewModel(dependencyInjector) as T
+            return NewsViewModel(newsRepository, router) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class")
